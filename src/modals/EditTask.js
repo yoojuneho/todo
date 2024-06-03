@@ -1,69 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Modal, Box, Button, TextField, MenuItem } from '@mui/material';
 
-const EditTaskPopup = ({ modal, toggle, updateTask, taskObj }) => {
-    const [taskName, setTaskName] = useState('');
-    const [description, setDescription] = useState('');
+const categories = ["Work", "Personal", "Shopping", "Others"];
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === "taskName") {
-            setTaskName(value);
-        } else {
-            setDescription(value);
-        }
-    };
+const EditTask = ({ modal, toggle, updateTask, taskObj }) => {
+    const [taskName, setTaskName] = useState(taskObj.Name);
+    const [taskDescription, setTaskDescription] = useState(taskObj.Description);
+    const [taskCategory, setTaskCategory] = useState(taskObj.Category);
 
-    useEffect(() => {
-        setTaskName(taskObj.Name);
-        setDescription(taskObj.Description);
-    }, [taskObj]);
-
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        let tempObj = {};
-        tempObj['Name'] = taskName;
-        tempObj['Description'] = description;
-        updateTask(tempObj);
+    const handleUpdate = () => {
+        let updatedTask = {};
+        updatedTask["Name"] = taskName;
+        updatedTask["Description"] = taskDescription;
+        updatedTask["Category"] = taskCategory;
+        updateTask(updatedTask);
     };
 
     return (
-        <Dialog open={modal} onClose={toggle}>
-            <DialogTitle>Update Task</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    <div className="form-group">
-                        <TextField
-                            label="Task Name"
-                            variant="outlined"
-                            fullWidth
-                            value={taskName}
-                            onChange={handleChange}
-                            name="taskName"
-                            margin="dense"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <TextField
-                            label="Description"
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            rows={5}
-                            value={description}
-                            onChange={handleChange}
-                            name="description"
-                            margin="dense"
-                        />
-                    </div>
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button color="primary" onClick={handleUpdate}>Update</Button>
-                <Button color="secondary" onClick={toggle}>Cancel</Button>
-            </DialogActions>
-        </Dialog>
+        <Modal open={modal} onClose={toggle}>
+            <Box sx={{ padding: 2, backgroundColor: 'white', borderRadius: 1, margin: 'auto', width: 300 }}>
+                <h2>Edit Task</h2>
+                <TextField label="Task Name" fullWidth margin="normal" value={taskName} onChange={(e) => setTaskName(e.target.value)} />
+                <TextField label="Task Description" fullWidth margin="normal" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
+                <TextField
+                    select
+                    label="Category"
+                    fullWidth
+                    margin="normal"
+                    value={taskCategory}
+                    onChange={(e) => setTaskCategory(e.target.value)}
+                >
+                    {categories.map((category) => (
+                        <MenuItem key={category} value={category}>
+                            {category}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
+            </Box>
+        </Modal>
     );
 };
 
-export default EditTaskPopup;
+export default EditTask;

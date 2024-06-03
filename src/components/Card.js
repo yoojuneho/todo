@@ -1,58 +1,64 @@
-import React, {useState} from 'react';
-import EditTask from '../modals/EditTask'
+import React, { useState } from 'react';
+import EditTask from '../modals/EditTask';
+import { Card as MuiCard, CardContent, Typography, Button, Box } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const Card = ({taskObj, index, deleteTask, updateListArray}) => {
+const Card = ({ taskObj, index, deleteTask, updateListArray }) => {
     const [modal, setModal] = useState(false);
 
-    const colors = [
-        {
-            primaryColor : "#5D93E1",
-            secondaryColor : "#ECF3FC"
-        },
-        {
-            primaryColor : "#F9D288",
-            secondaryColor : "#FEFAF1"
-        },
-        {
-            primaryColor : "#5DC250",
-            secondaryColor : "#F2FAF1"
-        },
-        {
-            primaryColor : "#F48687",
-            secondaryColor : "#FDF1F1"
-        },
-        {
-            primaryColor : "#B964F7",
-            secondaryColor : "#F3F0FD"
-        }
-    ]
+    const categoryColors = {
+        work: { primaryColor: "#5D93E1", secondaryColor: "#ECF3FC" },
+        personal: { primaryColor: "#F9D288", secondaryColor: "#FEFAF1" },
+        shopping: { primaryColor: "#5DC250", secondaryColor: "#F2FAF1" },
+        others: { primaryColor: "#F48687", secondaryColor: "#FDF1F1" }
+    };
+
+    const colors = categoryColors[taskObj.Category] || categoryColors['others'];
 
     const toggle = () => {
         setModal(!modal);
-    }
+    };
 
     const updateTask = (obj) => {
-        updateListArray(obj, index)
-    }
+        updateListArray(obj, index);
+    };
 
     const handleDelete = () => {
-        deleteTask(index)
-    }
+        deleteTask(index);
+    };
 
     return (
-        <div class = "card-wrapper mr-5">
-            <div class = "card-top" style={{"background-color": colors[index%5].primaryColor}}></div>
-            <div class = "task-holder">
-                <span class = "card-header" style={{"background-color": colors[index%5].secondaryColor, "border-radius": "10px"}}>{taskObj.Name}</span>
-                <p className = "mt-3">{taskObj.Description}</p>
-
-                <div style={{"position": "absolute", "top":"160px", "left":"160px"}}>
-                    <button style={{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} onClick = {() => setModal(true)}>close</button>
-                    <button style = {{"color" : colors[index%5].primaryColor, "cursor" : "pointer"}} onClick = {handleDelete}>Delete</button>
-                </div>
-        </div>
-        <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/>
-        </div>
+        <MuiCard sx={{ margin: 2, boxShadow: 3, borderRadius: 2, backgroundColor: colors.secondaryColor }}>
+            <CardContent>
+                <Typography variant="h5" component="div" sx={{ backgroundColor: colors.primaryColor, borderRadius: 1, color: '#fff', padding: 1, textAlign: 'center' }}>
+                    {taskObj.Name}
+                </Typography>
+                <Typography variant="body2" component="p" sx={{ marginTop: 2 }}>
+                    {taskObj.Description}
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<EditIcon />}
+                        sx={{ marginRight: 1 }}
+                        onClick={toggle}
+                    >
+                        Edit
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
+                </Box>
+            </CardContent>
+            <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj={taskObj} />
+        </MuiCard>
     );
 };
 
