@@ -47,12 +47,23 @@ const Card = ({ taskObj, index, deleteTask, updateListArray }) => {
                         />
                     }
                     label={
-                        <Typography variant="h5" component="div" sx={{ backgroundColor: colors.primaryColor, borderRadius: 1, color: '#fff', padding: 1, textAlign: 'center' }}>
+                        <Typography
+                            variant="h5"
+                            component="div"
+                            sx={{
+                                backgroundColor: colors.primaryColor,
+                                borderRadius: 1,
+                                color: '#fff',
+                                padding: 1,
+                                textAlign: 'center',
+                                textDecoration: taskObj.Completed ? 'line-through' : 'none'
+                            }}
+                        >
                             {taskObj.Name}
                         </Typography>
                     }
                 />
-                <Typography variant="body2" component="p" sx={{ marginTop: 2 }}>
+                <Typography variant="body2" component="p" sx={{ marginTop: 2, textDecoration: taskObj.Completed ? 'line-through' : 'none' }}>
                     {taskObj.Description}
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
