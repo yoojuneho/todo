@@ -9,7 +9,7 @@ const CreateTask = ({ modal, toggle, save }) => {
     const categories = [
         { label: 'Work', value: 'work' },
         { label: 'Personal', value: 'personal' },
-        { label: 'Shopping', value: 'shopping' },
+        { label: 'Study', value: 'Study' },
         { label: 'Others', value: 'others' }
     ];
 

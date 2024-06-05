@@ -75,7 +75,7 @@ const TodoList = () => {
                     </MenuItem>
                     <MenuItem value="work">Work</MenuItem>
                     <MenuItem value="personal">Personal</MenuItem>
-                    <MenuItem value="shopping">Shopping</MenuItem>
+                    <MenuItem value="Study">Study</MenuItem>
                     <MenuItem value="others">Others</MenuItem>
                 </Select>
             </FormControl>

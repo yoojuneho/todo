@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Button, TextField, MenuItem } from '@mui/material';
 
-const categories = ["Work", "Personal", "Shopping", "Others"];
+const categories = ["Work", "Personal", "Study", "Others"];
 
 const EditTask = ({ modal, toggle, updateTask, taskObj }) => {
     const [taskName, setTaskName] = useState(taskObj.Name);
